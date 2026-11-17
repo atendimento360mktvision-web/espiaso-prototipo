@@ -534,6 +534,38 @@ input[type=color]{width:42px;height:38px;border:1.5px solid var(--line);border-r
 .l-hero .nbtns{gap:17px;margin-top:35px}
 .l-hero .nbtn{min-height:58px;padding:10px;display:flex;flex-direction:column;justify-content:center}
 .l-hero .nbtn small{font-size:12px;margin-top:3px}
+
+/* vitrine de modelos em arco, como no rascunho */
+#sec-modelos{text-align:center}
+#sec-modelos .mdl-h .sub{margin-left:auto;margin-right:auto}
+.cf-top{max-width:640px;margin:34px auto 0}
+.cf-top .tnum{color:#AC7E37;font-size:12px;font-weight:600;letter-spacing:.18em}
+.cf-top h3{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:52px;line-height:1;margin:8px 0 16px}
+.cf-chip{display:inline-flex;align-items:center;gap:12px;padding:8px 18px 8px 8px;border:1px solid #E5DAC6;border-radius:99px;background:rgba(255,255,255,.6);text-align:left}
+.cf-av{width:46px;height:46px;border-radius:50%;flex:none;background:#232122 center 22%/cover no-repeat;box-shadow:0 0 0 2px #fff,0 0 0 3px #CC9944}
+.cf-av.lg{background-size:76% auto;background-position:center;background-color:#232122}
+.cf-ct{display:flex;flex-direction:column;gap:1px}
+.cf-ct b{font-size:14.5px}
+.cf-ct a{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:600;color:#AC7E37;text-decoration:none}
+.cf-ct a:hover{text-decoration:underline}.cf-ct small{font-size:12.5px;color:var(--ink2)}
+.cf-desc{font-size:15px;color:var(--ink2);margin:14px auto 0;max-width:460px}
+.cf{position:relative;height:610px;margin:20px auto 0;perspective:1500px;perspective-origin:50% 45%;transform-style:preserve-3d}
+.cf .dk{position:absolute;left:50%;top:30px;width:262px;height:520px;margin-left:-131px;border-radius:40px;background:#0c0c0d;padding:8px;box-shadow:inset 0 0 0 1.5px #6c6c72;transition:transform .8s cubic-bezier(.32,.72,0,1),opacity .6s;cursor:pointer;transform-origin:50% 50%}
+.cf .dk::after{content:"";position:absolute;left:8%;right:8%;bottom:-34px;height:40px;background:radial-gradient(closest-side,rgba(35,33,34,.32),rgba(35,33,34,0));pointer-events:none}
+.cf .dk.side .dk-s::after{content:"";position:absolute;inset:0;background:rgba(246,242,234,.08);pointer-events:none}
+.cf .dk.front{cursor:default}
+.cf .dk .dk-s .sc{--sc:.6308}
+.cf-nav{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:10px}
+.cf-nav .dk-dots{margin:0}
+.cf-cta{display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:22px}
+.cf-cta .btn{min-width:240px;justify-content:center}
+@media (max-width:640px){
+  .cf-top h3{font-size:40px}
+  .cf{height:500px;perspective:1000px}
+  .cf .dk{width:220px;height:436px;margin-left:-110px;top:22px;border-radius:34px;padding:7px}
+  .cf .dk .dk-s .sc{--sc:.5282}
+  .cf-chip{padding-right:14px}
+}
 /* perfil Espia Só no Instagram */
 .ig-tabs span{display:grid;place-items:center}
 .ig-av{background:linear-gradient(135deg,#AC7E37,#E4B05D,#BD8E47)}
@@ -1120,11 +1152,10 @@ function viewLanding(){
     </div>
   </section>
   <section class="sec" id="sec-modelos">
-    <div data-rv><div class="eyebrow">Modelos</div><h2>Um estilo para cada negócio</h2><p class="sub">Nove modelos na linha executiva da Marketing Vision, todos inclusos nos dois planos. Os modelos de 01 a 06 aparecem com a página de um cliente real do espiaso.com, com fotos e textos de verdade. Toque nos aparelhos para passar.</p></div>
-    <div class="deck-w" data-rv style="--d:.12s">
-      <div class="deck" id="deck">${TPL.filter(t=>!tplOff().includes(t.id)||t.id===BASE).map((t,k)=>`<div class="dk" data-act="dk-go" data-k="${k}"><div class="dk-s"><div class="sc">${renderBio(showPage(t.id),{mode:'mini',forceTpl:t.id})}</div></div></div>`).join('')}</div>
-      <div class="dk-info" id="dk-info">${deckInfo()}</div>
-    </div>
+    <div data-rv class="mdl-h"><div class="eyebrow">Um estilo para cada negócio</div><h2>Modelos</h2><p class="sub">Nove modelos executivos, todos inclusos nos dois planos. Os modelos de 01 a 06 mostram a página de um cliente real do espiaso.com.</p></div>
+    <div class="cf-top" id="cf-top" data-rv style="--d:.08s">${deckTop()}</div>
+    <div class="cf" id="deck" data-rv style="--d:.12s">${TPL.filter(t=>!tplOff().includes(t.id)||t.id===BASE).map((t,k)=>`<div class="dk" data-act="dk-go" data-k="${k}"><div class="dk-s"><div class="sc">${renderBio(showPage(t.id),{mode:'mini',forceTpl:t.id})}</div></div></div>`).join('')}</div>
+    <div class="cf-bot" id="cf-bot">${deckBot()}</div>
   </section>
   <section class="sec" id="sec-planos">
     <div data-rv><div class="eyebrow">Planos</div><h2>Dois planos, sem letra miúda</h2><p class="sub">Escolha 3, 6 ou 12 meses. O valor por mês é o mesmo em qualquer período. No protótipo, a cobrança é simulada.</p></div>
@@ -1184,15 +1215,27 @@ const TPL_INFO={executivo:['Foto grande em destaque, título com a última palav
  clean:['Claro e discreto, com galeria em carrossel e título em itálico.',['Saúde','Serviços','Carrossel']]};
 function marqItems(){return ['CLÍNICAS','CONSULTÓRIOS','IMOBILIÁRIAS','ADVOCACIA','ESTÉTICA','ENERGIA SOLAR','CORRETORES','AGÊNCIAS'].map((w,k)=>`<span class="${k%2?'f':''}">${w}</span><span class="ms lsym">${LOGO_SYM}</span>`).join('');}
 const deckList=()=>TPL.filter(t=>!tplOff().includes(t.id)||t.id===BASE);
-function deckInfo(){const L=deckList();const i=((S.deck||0)%L.length+L.length)%L.length;const t=L[i];const inf=TPL_INFO[t.id]||['',[]];
-  const c=CLIENTS[t.id];
-  const cli=c?`<div class="dk-cli">${c.lg?`<i class="lgm" style="--m:url('${REAL[c.lg]}');aspect-ratio:${c.ar.toFixed(3)}"></i>`:`<i class="lgw">${esc(c.nome)}</i>`}<div class="dk-cli-t"><b>${esc(c.nome)}</b><small>${esc(c.seg)} · ${esc(c.cidade)}</small><a href="https://www.instagram.com/${esc(c.ig)}/" target="_blank" rel="noopener noreferrer">${ic('insta',14)}@${esc(c.ig)}</a></div></div>`:`<div class="dk-cli novo"><span>Modelo novo, ainda sem cliente publicado. A prévia usa um exemplo.</span></div>`;
-  return `<div class="dk-fade"><div class="tnum">MODELO ${t.n} · ${c?'CLIENTE REAL':'NOVO'} · ${pad2(i+1)} DE ${pad2(L.length)}</div><h3>${t.name}</h3>${cli}<p>${inf[0]}</p><div class="dk-tags">${inf[1].map(x=>`<span>${x}</span>`).join('')}</div>
-  <div class="dk-cta"><a class="btn acc" href="#cadastro" data-act="use-tpl" data-id="${t.id}">Usar este modelo</a>${c?`<a class="btn ghost" href="${esc(c.url)}" target="_blank" rel="noopener noreferrer">Ver página real ${ic('ext',14)}</a>`:''}</div>
-  <div class="dk-nav"><button class="iconbtn" data-act="dk-prev" aria-label="Modelo anterior" style="transform:rotate(-90deg)">${ic('up',16)}</button><button class="iconbtn" data-act="dk-next" aria-label="Próximo modelo" style="transform:rotate(90deg)">${ic('up',16)}</button><div class="dk-dots">${L.map((_,k)=>`<i class="${k===i?'on':''}" data-act="dk-go" data-k="${k}"></i>`).join('')}</div></div></div>`;}
+function deckIdx(){const L=deckList();return [L,((S.deck||0)%L.length+L.length)%L.length];}
+function chipImg(c){const p=c.page;return p.avatar||p.cover||p.logo||'';}
+function deckTop(){const [L,i]=deckIdx();const t=L[i];const c=CLIENTS[t.id];const inf=TPL_INFO[t.id]||['',[]];
+  const chip=c?`<div class="cf-chip"><span class="cf-av${c.page.avatar&&c.page.avatarFit==='contain'||(!c.page.avatar&&!c.page.cover)?' lg':''}" style="background-image:url('${chipImg(c)}')"></span><span class="cf-ct"><b>${esc(c.nome)}</b><a href="https://www.instagram.com/${esc(c.ig)}/" target="_blank" rel="noopener noreferrer">${ic('insta',13)}@${esc(c.ig)}</a></span></div>`:`<div class="cf-chip novo"><span class="cf-av" style="background-image:url('${REAL.doc_cover}')"></span><span class="cf-ct"><b>Modelo novo</b><small>Prévia com foto de exemplo</small></span></div>`;
+  return `<div class="dk-fade"><div class="tnum">MODELO ${t.n} · ${c?'CLIENTE REAL':'NOVO'}</div><h3>${t.name}</h3>${chip}<p class="cf-desc">${inf[0]}</p></div>`;}
+function deckBot(){const [L,i]=deckIdx();const t=L[i];const c=CLIENTS[t.id];
+  return `<div class="cf-nav"><button class="iconbtn" data-act="dk-prev" aria-label="Modelo anterior"><span style="display:inline-flex;transform:rotate(180deg)">${ic('chev',16)}</span></button><div class="dk-dots">${L.map((_,k)=>`<i class="${k===i?'on':''}" data-act="dk-go" data-k="${k}" title="${esc(L[k].name)}"></i>`).join('')}</div><button class="iconbtn" data-act="dk-next" aria-label="Próximo modelo">${ic('chev',16)}</button></div>
+  <div class="cf-cta"><a class="btn acc" href="#cadastro" data-act="use-tpl" data-id="${t.id}">Usar este modelo</a>${c?`<a class="btn ghost" href="${esc(c.url)}" target="_blank" rel="noopener noreferrer">Ver página real ${ic('ext',14)}</a>`:''}</div>`;}
+function deckInfo(){return deckTop();}
 function layoutDeck(){const el=$('#deck');if(!el)return;const cards=[...el.querySelectorAll('.dk')];const n=cards.length;const i=((S.deck||0)%n+n)%n;
-  const sm0=innerWidth<640;cards.forEach((c,k)=>{const d=(k-i+n)%n;c.classList.toggle('front',d===0);if(d===0){const b=c.querySelector('.sc>.bio');const sc=c.querySelector('.dk-s');const dy=b&&sc?Math.min(0,Math.round(sc.clientHeight/(sm0?0.5949:0.6308))-b.offsetHeight):0;c.style.setProperty('--dy',dy+'px');c.style.setProperty('--dur',Math.max(7,Math.abs(dy)/55).toFixed(1)+'s');}const sm=innerWidth<640;if(d<4){c.style.transform=`translate(${d*(sm?13:38)}px,${-d*(sm?10:16)}px) rotate(${d*(sm?2.6:4.5)}deg) scale(${1-d*(sm?0.04:0.05)})`;c.style.opacity=d===0?1:(1-d*0.2);c.style.zIndex=50-d;c.style.pointerEvents='auto';}else{c.style.transform='translate(150px,-60px) rotate(16deg) scale(.82)';c.style.opacity=0;c.style.zIndex=1;c.style.pointerEvents='none';}});
-  const info=$('#dk-info');if(info)info.innerHTML=deckInfo();}
+  const W=innerWidth,sm=W<640,md=W<1100;const X1=sm?Math.min(W*0.58,232):md?250:300,X2=sm?W:md?470:565;const R1=sm?40:26,R2=sm?50:40,Z1=sm?-20:70,Z2=sm?90:170;
+  cards.forEach((c,k)=>{let d=(k-i+n)%n;if(d>n/2)d-=n;const a=Math.abs(d),sg=Math.sign(d);c.classList.toggle('front',d===0);c.classList.toggle('side',d!==0);
+    if(d===0){const b=c.querySelector('.sc>.bio');const sc=c.querySelector('.dk-s');const k2=sc?sc.clientWidth/390:0.63;const dy=b&&sc?Math.min(0,Math.round(sc.clientHeight/k2)-b.offsetHeight):0;c.style.setProperty('--dy',dy+'px');c.style.setProperty('--dur',Math.max(7,Math.abs(dy)/55).toFixed(1)+'s');}
+    if(a<=2&&!(sm&&a===2)){const x=a===0?0:a===1?X1:X2,r=a===0?0:a===1?R1:R2,z=a===0?0:a===1?Z1:Z2;c.style.transform=`translateX(${sg*x}px) translateZ(${z}px) rotateY(${-sg*r}deg)`;c.style.opacity=a===0?1:a===1?.92:.7;c.style.zIndex=10-a;c.style.pointerEvents='auto';}
+    else{c.style.transform=`translateX(${(sg||1)*(X2+260)}px) translateZ(0) rotateY(${-(sg||1)*55}deg)`;c.style.opacity=0;c.style.zIndex=1;c.style.pointerEvents='none';}});
+  const t=$('#cf-top');if(t)t.innerHTML=deckTop();const bt=$('#cf-bot');if(bt)bt.innerHTML=deckBot();}
+let cfSwipe=0;
+function initDeckSwipe(){const el=$('#deck');if(!el||el.dataset.sw)return;el.dataset.sw=1;let x0=null;
+  el.addEventListener('pointerdown',e=>{x0=e.clientX;cfSwipe=0;});
+  el.addEventListener('pointerup',e=>{if(x0==null)return;const dx=e.clientX-x0;x0=null;if(Math.abs(dx)>40){cfSwipe=1;S.deck=(S.deck||0)+(dx<0?1:-1);layoutDeck();setTimeout(()=>cfSwipe=0,50);}});
+  el.addEventListener('click',e=>{if(cfSwipe){e.stopPropagation();e.preventDefault();}},true);}
 function logoStrip(){
   const it=id=>{const c=CLIENTS[id];const t=tplById(id);const h={executivo:52,clinica:58,paisagem:36,imobiliaria:66,clean:56}[id]||46;
     return `<button class="lgi" data-act="cl-go" data-id="${id}" aria-label="${esc(c.nome)}: ver o modelo ${t.n}">${c.lg?`<i class="lgm" style="--m:url('${REAL[c.lg]}');height:${h}px;aspect-ratio:${c.ar.toFixed(3)}"></i>`:`<i class="lgw">${esc(c.nome)}</i>`}<span class="lgt">@${esc(c.ig)} · Modelo ${t.n}</span></button>`;};
@@ -1215,7 +1258,7 @@ function initLogos(){cancelAnimationFrame(lgRAF);const v=$('#lgs');if(!v)return;
   addEventListener('resize',()=>{W=t.scrollWidth/3;wrap();},{passive:true});
   const step=ts=>{if(!document.body.contains(v))return;const dt=last?Math.min(50,ts-last):0;last=ts;if(!drag&&!hover&&!red)x+=0.042*dt;wrap();put();lgRAF=requestAnimationFrame(step);};
   put();lgRAF=requestAnimationFrame(step);}
-function initFx(){layoutDeck();initLogos();const els=document.querySelectorAll('[data-rv]');
+function initFx(){layoutDeck();initDeckSwipe();initLogos();const els=document.querySelectorAll('[data-rv]');
   if(!('IntersectionObserver' in window)){els.forEach(e=>e.classList.add('rv-in'));return;}
   const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){en.target.classList.add('rv-in');io.unobserve(en.target);}}),{rootMargin:'0px 0px -80px 0px'});
   els.forEach(e=>io.observe(e));}
@@ -1553,7 +1596,7 @@ const ACT={
   'dk-next':()=>{S.deck=(S.deck||0)+1;layoutDeck();},
   'dk-prev':()=>{S.deck=(S.deck||0)-1;layoutDeck();},
   'cl-go':el=>{const k=deckList().findIndex(t=>t.id===el.dataset.id);if(k<0)return;S.deck=k;layoutDeck();const s=$('#sec-modelos');if(s)s.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});},
-  'dk-go':el=>{const k=+el.dataset.k;const n=deckList().length;const i=((S.deck||0)%n+n)%n;S.deck=(k===i&&el.classList.contains('dk'))?k+1:k;layoutDeck();},
+  'dk-go':el=>{const k=+el.dataset.k;const n=deckList().length;const i=((S.deck||0)%n+n)%n;if(k===i)return;S.deck=k;layoutDeck();},
   'use-tpl':el=>{S.signTpl=el.dataset.id;location.hash='cadastro';},
   top:()=>{window.scrollTo({top:0,behavior:'smooth'});},
   'choose-plan':el=>{S.signPlan=el.dataset.plan;location.hash='cadastro';},
